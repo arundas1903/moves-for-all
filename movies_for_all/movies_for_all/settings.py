@@ -38,8 +38,18 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'rest_framework',
     'app_user',
-    'movies'
+    'movies',
+    'rest_framework.authtoken'
 )
+
+# Rest framework settings: Token authentication is used
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.BasicAuthentication',
+        # 'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -82,6 +92,8 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+AUTH_USER_MODEL = 'app_user.AppUser'
 
 
 # Static files (CSS, JavaScript, Images)
