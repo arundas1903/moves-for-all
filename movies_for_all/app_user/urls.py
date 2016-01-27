@@ -1,7 +1,8 @@
 from django.conf.urls import patterns, include, url
 
-from .views import CreateAppUser
+from .views import User, UserLogin
 
 urlpatterns = [
-    url(r'^$', CreateAppUser.as_view(), name="user_list"),
+    url(r'^$', User.as_view(), name="user_list"),
+    url(r'^login_token/$', UserLogin.as_view()),
 ]
