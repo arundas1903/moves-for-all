@@ -1,3 +1,7 @@
 from django.conf.urls import patterns, include, url
 
-urlpatterns = []
+from .views import CreateAppUser
+
+urlpatterns = [
+    url(r'^$', CreateAppUser.as_view(), name="user_list"),
+]

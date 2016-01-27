@@ -45,10 +45,9 @@ INSTALLED_APPS = (
 # Rest framework settings: Token authentication is used
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
-        # 'rest_framework.authentication.BasicAuthentication',
-        # 'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
     ),
+    'EXCEPTION_HANDLER': 'app_user.rest_exception.custom_exception_handler'
 }
 
 MIDDLEWARE_CLASSES = (
