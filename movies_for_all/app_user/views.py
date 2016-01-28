@@ -18,10 +18,19 @@ class User(generics.GenericAPIView):
 
     """
         App User signup view.
-        Required fields: email, username, password.
-        Other fields: first_name, last_name, is_staff, is_active, is_subscribed.
-        is_staff, is_active, is_subscribed fields have a default value as False.
-        Username and Email must be unique.
+        * Required fields: email, username, password.
+        * Other fields: first_name, last_name, is_staff, is_active, is_subscribed.
+          is_staff, is_active, is_subscribed fields have a default value as False.
+        * Username and Email must be unique.
+        * sample data:
+            -{"first_name":"First name", "last_name": "Last Name","email":"email",
+              "username": "username", "password": "password", "is_active": "True/False",
+              "is_staff": "True/False", "is_subscribed": "True/False"}
+        * is_active - True if user is active
+        * is_staff - Admin user
+        * is_subscribed - Subscribed users (Feature not used currently)
+        * Headers:
+            - Content-Type: Application/Json
     """
 
     serializer_class = UserSerializer
@@ -40,9 +49,18 @@ class User(generics.GenericAPIView):
 class UserLogin(APIView):
 
     """
-        User login and logout view which returns access token on success.
-        username and password are the required fields.
-        For logout accesstoken should be given as: Token <access_token>
+        * User login and logout view which returns access token on success.
+        * username and password are the required fields.
+        * For logout token should be given as: Token <access_token>
+        * Login:
+            - Data: {"username": "username", "password": "password"}
+            - Headers: Content-Type: Application/Json
+            - METHOD: POST
+        * Logout:
+            - Headers:
+                Content-Type: Application/Json
+                Authorization: Token <token>
+            - METHOD: DELETE
     """
 
     serializer_class = AuthTokenSerializer

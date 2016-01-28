@@ -1,9 +1,7 @@
-import json
-
-from rest_framework import generics, renderers, permissions, status
+from rest_framework import generics, permissions
 from rest_framework.response import Response
 
-from .serializers import MovieSerializer, MovieListSerializer, DirectorSerializer, GenreSerializer
+from .serializers import MovieSerializer, MovieListSerializer
 from .models import Movie, Genre, Director
 from app_user.permissions import IsAdminUser
 
@@ -115,10 +113,21 @@ class UpdateMovie(generics.GenericAPIView):
         return self.update(request, *args, **kwargs)
 
     def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data)
+        data = request.data
+        movie_instance = self.get_object()
+        serializer = self.get_serializer(movie_instance, data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            movie_instance.name = data['name']
+            movie_instance.imdb_score = data['imdb_score']
+            movie_instance.popularity = data['popularity']
+            director = Director.objects.get_or_create(name=data['director'])
+            movie_instance.director = director[0]
+            movie_instance.save()
+            movie_instance.genre.all().delete()
+            for genre_name in data['genre']:
+                # Create genre if not existing
+                genre = Genre.objects.get_or_create(name=genre_name)
+                movie_instance.genre.add(genre[0])
             return Response({"status": 1})
         return Response({"status": -1, "errors": serializer.errors})
 
