@@ -52,11 +52,6 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'app_user.rest_exception.custom_exception_handler'
 }
 
-import dj_database_url
-DATABASES['default'] =  dj_database_url.config()
-# Honor the 'X-Forwarded-Proto' header for request.is_secure()
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -77,14 +72,19 @@ WSGI_APPLICATION = 'movies_for_all.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'movies_for_all',
-        'USER': 'root',
-        'PASSWORD': 'qwtFU886',
+        'USER': 'postgres',
+        'PASSWORD': 'qburst@321',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
-        'PORT': '3306',
+        'PORT': '5432',
     }
 }
+
+import dj_database_url
+DATABASES['default'] =  dj_database_url.config()
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -105,4 +105,15 @@ AUTH_USER_MODEL = 'app_user.AppUser'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATIC_PATH = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
+
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
+
+TEMPLATE_DIRS = (
+    os.path.join(BASE_DIR,  'templates'),
+)
